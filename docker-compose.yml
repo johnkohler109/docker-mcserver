@@ -1,0 +1,35 @@
+services:
+  tailscale-mc:
+    image: tailscale/tailscale:latest
+    container_name: tailscale-mc
+    hostname: container-minecraft
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    volumes:
+      - ./tailscale-state:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    restart: unless-stopped
+
+  mc-java:
+    image: itzg/minecraft-server
+    container_name: mc-java-server
+    network_mode: service:tailscale-mc
+    depends_on:
+      - tailscale-mc
+    environment:
+      EULA: "TRUE"
+      TYPE: "PAPER"
+      VERSION: "26.3"
+      MEMORY: "6G"
+      OPS: "${MC_OPS}"
+      DATAPACKS: "https://modrinth.com/datapack/netherite-without-templates"
+      CREATE_CONSOLE_IN_PIPE: "true"
+      MODS: "https://github.com/DiscordSRV/DiscordSRV/releases/download/v1.29.0/DiscordSRV-Build-1.29.0.jar"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped

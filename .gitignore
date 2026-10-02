@@ -1,0 +1,5 @@
+data/
+tailscale-state/
+.env
+.DS_Store
+*.log
