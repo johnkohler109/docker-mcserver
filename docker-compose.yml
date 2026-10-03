@@ -29,7 +29,7 @@ services:
       OPS: "${MC_OPS}"
       DATAPACKS: "https://modrinth.com/datapack/netherite-without-templates"
       CREATE_CONSOLE_IN_PIPE: "true"
-      MODS: "https://github.com/DiscordSRV/DiscordSRV/releases/download/v1.29.0/DiscordSRV-Build-1.29.0.jar"
+      MODS: "https://get.discordsrv.com"
     volumes:
       - ./data:/data
     restart: unless-stopped
